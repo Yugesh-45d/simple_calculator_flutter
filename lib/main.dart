@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:calculator/calculator.dart';
+import 'package:calculator/simple_interest.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,20 +14,8 @@ void main() {
   );
 }
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  double principle = 0, rate = 0, time = 0, result = 0;
-  void interest() {
-    setState(() {
-      result = (principle * rate * time) / 100;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,119 +24,76 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text(
             "Calculator",
+            style: TextStyle(
+              fontSize: 24,
+            ),
           ),
           centerTitle: true,
         ),
-        body: SingleChildScrollView(
+        body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Choose your Calculator",
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
               SizedBox(
-                height: 80,
+                height: 32,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter the Principle",
-                    label: Text(
-                      "Principle",
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
-                  onChanged: (String value) {
-                    setState(
-                      () {
-                        principle = double.tryParse(value) ?? 0;
-                      },
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter the Rate",
-                    label: Text(
-                      "Rate",
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
-                  onChanged: (String value) {
-                    setState(() {
-                      rate = double.tryParse(value) ?? 0;
-                    });
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter the Time",
-                    label: Text(
-                      "Time",
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
-                  onChanged: (String value) {
-                    time = double.tryParse(value) ?? 0;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16.0),
                 child: SizedBox(
+                  height: 64,
                   width: double.maxFinite,
-                  height: 56,
-                  child: ElevatedButton(
+                  child: TextButton(
+                    style: TextButton.styleFrom(backgroundColor: Colors.green),
                     onPressed: () {
-                      interest();
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SimpleCalculator()));
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                    ),
                     child: Text(
-                      "Calculate",
+                      "Simple Calculator",
                       style: TextStyle(
                         fontSize: 20,
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 40,
-              ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Simple Interest is: $result",
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 32,
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: 64,
+                  width: double.maxFinite,
+                  child: TextButton(
+                    style: TextButton.styleFrom(backgroundColor: Colors.green),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => InterestCalculator(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Interest Calculator",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(
-              () {
-                principle = 0;
-                rate = 0;
-                time = 0;
-                result = 0;
-              },
-            );
-          },
-          child: Icon(
-            Icons.restore,
           ),
         ),
       ),
