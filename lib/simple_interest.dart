@@ -12,10 +12,18 @@ class InterestCalculator extends StatefulWidget {
 }
 
 class _InterestCalculatorState extends State<InterestCalculator> {
+  @override
+  void initState() {
+    principleTextController = TextEditingController();
+    timeTextController = TextEditingController();
+    rateTextController = TextEditingController();
+    super.initState();
+  }
+
   final _formKey = GlobalKey<FormState>(); //Created Global Key Here
-  final principleTextController = TextEditingController();
-  final timeTextController = TextEditingController();
-  final rateTextController = TextEditingController();
+  late TextEditingController principleTextController;
+  late TextEditingController timeTextController;
+  late TextEditingController rateTextController;
 
   handleForm() {
     if (!_formKey.currentState!.validate()) {
@@ -35,15 +43,18 @@ class _InterestCalculatorState extends State<InterestCalculator> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              "RESULT",
+              "OUTCOME",
               style: TextStyle(
+                fontSize: 24,
                 color: Colors.red,
+                decoration: TextDecoration.underline,
               ),
             ),
             content: Text(
               "Simple Interest is $interest",
               style: TextStyle(
-                color: Colors.green,
+                fontSize: 20,
+                color: Colors.blue,
               ),
             ),
             actions: [
@@ -56,6 +67,15 @@ class _InterestCalculatorState extends State<InterestCalculator> {
             ],
           );
         });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    principleTextController.dispose();
+    rateTextController.dispose();
+    timeTextController.dispose();
   }
 
   @override
