@@ -24,12 +24,17 @@ class _InterestCalculatorState extends State<InterestCalculator> {
   late TextEditingController principleTextController;
   late TextEditingController timeTextController;
   late TextEditingController rateTextController;
+  String invalidWord = '';
 
   handleForm() {
     if (!_formKey.currentState!.validate()) {
       return;
     } else {
-      log("principle: ${principleTextController.text}");
+      log("Principle: ${principleTextController.text}");
+      log("Rate: ${rateTextController.text}");
+      log("Time: ${timeTextController.text}");
+      invalidWord = principleTextController.text;
+
       //log came from dart developer, it package. It helps to see log message in console in runtime which helps in debugging
     }
     var principle = int.parse(principleTextController.text);
@@ -71,11 +76,10 @@ class _InterestCalculatorState extends State<InterestCalculator> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     principleTextController.dispose();
     rateTextController.dispose();
     timeTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -113,6 +117,8 @@ class _InterestCalculatorState extends State<InterestCalculator> {
                     validator: (String? value) {
                       if (value!.isEmpty) {
                         return "Principle is required";
+                      } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                        return 'Invalid characters entered!! Only numbers are allowed.';
                       } else {
                         return null;
                       }
@@ -132,6 +138,8 @@ class _InterestCalculatorState extends State<InterestCalculator> {
                       validator: (String? value) {
                         if (value!.isEmpty) {
                           return "Rate is required";
+                        } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Invalid characters entered!! Only numbers are allowed.';
                         } else {
                           return null;
                         }
@@ -149,6 +157,8 @@ class _InterestCalculatorState extends State<InterestCalculator> {
                       validator: (String? value) {
                         if (value!.isEmpty) {
                           return "Time is required";
+                        } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Invalid characters entered!! Only numbers are allowed.';
                         } else {
                           return null;
                         }

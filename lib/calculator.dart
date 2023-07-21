@@ -19,15 +19,14 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-            title: Text(
-              "Simple Calculator",
-              style: TextStyle(
-                fontSize: 24,
-              ),
+          title: Text(
+            "Simple Calculator",
+            style: TextStyle(
+              fontSize: 24,
             ),
-            centerTitle: true,
           ),
-          
+          centerTitle: true,
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -83,102 +82,6 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
                     ),
                     onPressed: () {
                       switch (number) {
-                        case "1":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "2":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "3":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "4":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "5":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "6":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "7":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "8":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "9":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "0":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "00":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "+":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "-":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "*":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case "/":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
-                        case ".":
-                          {
-                            setState(() {
-                              equation += number;
-                            });
-                          }
                         case "AC":
                           {
                             setState(() {
@@ -189,7 +92,8 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
                         case "DE":
                           {
                             setState(() {
-                              equation = equation.substring(0, equation.length - 1);
+                              equation =
+                                  equation.substring(0, equation.length - 1);
                             });
                           }
                         case "=":
@@ -198,11 +102,18 @@ class _SimpleCalculatorState extends State<SimpleCalculator> {
                               try {
                                 Parser p = Parser();
                                 Expression expression = p.parse(equation);
-                                ContextModel cm = ContextModel();
-                                result = '${expression.evaluate(EvaluationType.REAL, cm)}';
+                                ContextModel context = ContextModel();
+                                result =
+                                    '${expression.evaluate(EvaluationType.REAL, context)}';
                               } catch (e) {
                                 result = "Error";
                               }
+                            });
+                          }
+                        default:
+                          {
+                            setState(() {
+                              equation += number;
                             });
                           }
                       }
