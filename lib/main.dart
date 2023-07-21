@@ -56,7 +56,10 @@ class HomePage extends StatelessWidget {
                   child: TextButton(
                     style: TextButton.styleFrom(backgroundColor: Colors.green),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SimpleCalculator()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SimpleCalculator()));
                     },
                     child: Text(
                       "Simple Calculator",

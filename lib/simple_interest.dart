@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class InterestCalculator extends StatefulWidget {
@@ -10,24 +12,51 @@ class InterestCalculator extends StatefulWidget {
 }
 
 class _InterestCalculatorState extends State<InterestCalculator> {
-  double principle = 0, rate = 0, time = 0, result = 0;
-  void interest() {
-    setState(() {
-      result = (principle * rate * time) / 100;
-    });
-  }
-
+  final _formKey = GlobalKey<FormState>(); //Created Global Key Here
   final principleTextController = TextEditingController();
   final timeTextController = TextEditingController();
   final rateTextController = TextEditingController();
-  // final _formKey = GlobalKey<FormState>();
 
-  // handleForm() {
-  //   if (!_formKey.currentState!.validate()) {
-  //     return;
-  //   }
-  //   log("principle: ${principleTextController.text}");
-  // }
+  handleForm() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    } else {
+      log("principle: ${principleTextController.text}");
+      //log came from dart developer, it package. It helps to see log message in console in runtime which helps in debugging
+    }
+    var principle = int.parse(principleTextController.text);
+    var time = int.parse(timeTextController.text);
+    var rate = int.parse(rateTextController.text);
+
+    var interest = (principle * time * rate) / 100;
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "RESULT",
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+            content: Text(
+              "Simple Interest is $interest",
+              style: TextStyle(
+                color: Colors.green,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +73,8 @@ class _InterestCalculatorState extends State<InterestCalculator> {
         ),
         body: SingleChildScrollView(
           child: Form(
+            autovalidateMode: AutovalidateMode.always,
+            key: _formKey,
             child: Column(
               children: [
                 SizedBox(
@@ -52,68 +83,56 @@ class _InterestCalculatorState extends State<InterestCalculator> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    //For using Validator, we need to use TextFormField instead of TextField
                     controller: principleTextController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      // hintText: "Enter the Principle",
-                      // label: Text(
-                      //   "Principle",
-                      // ),
                       labelText: "Principle",
                     ),
                     keyboardType: TextInputType.number,
-                    // validator: (String? value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Principle is required";
-                    //   }
-                    //   return "Done";
-                    // },
-                    onChanged: (String value) {
-                      setState(
-                        () {
-                          principle = double.tryParse(value) ?? 0;
-                        },
-                      );
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return "Principle is required";
+                      } else {
+                        return null;
+                      }
                     },
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: rateTextController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      // hintText: "Enter the Rate",
-                      // label: Text(
-                      //   "Rate",
-                      // ),
-                      labelText: "Rate",
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (String value) {
-                      setState(() {
-                        rate = double.tryParse(value) ?? 0;
-                      });
-                    },
-                  ),
+                  child: TextFormField(
+                      //For using Validator, we need to use TextFormField instead of TextField
+                      controller: rateTextController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Rate",
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return "Rate is required";
+                        } else {
+                          return null;
+                        }
+                      }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: timeTextController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      // hintText: "Enter the Time",
-                      // label: Text(
-                      //   "Time",
-                      // ),
-                      labelText: "Time",
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (String value) {
-                      time = double.tryParse(value) ?? 0;
-                    },
-                  ),
+                  child: TextFormField(
+                      controller: timeTextController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Time",
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return "Time is required";
+                        } else {
+                          return null;
+                        }
+                      }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -122,8 +141,7 @@ class _InterestCalculatorState extends State<InterestCalculator> {
                     height: 56,
                     child: ElevatedButton(
                       onPressed: () {
-                        interest();
-                        // handleForm();
+                        handleForm();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
@@ -140,16 +158,6 @@ class _InterestCalculatorState extends State<InterestCalculator> {
                 SizedBox(
                   height: 40,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Simple Interest is: $result",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 32,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -158,10 +166,9 @@ class _InterestCalculatorState extends State<InterestCalculator> {
           onPressed: () {
             setState(
               () {
-                principle = 0;
-                rate = 0;
-                time = 0;
-                result = 0;
+                principleTextController.text = '';
+                timeTextController.text = '';
+                rateTextController.text = '';
               },
             );
           },
